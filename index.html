@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Digital Menu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+    .menu {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      margin: auto;
+    }
+    .item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+    button {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #218838;
+    }
+  </style>
+</head>
+<body>
+
+<div class="menu">
+  <h2>🍽️ Digital Menu</h2>
+
+  <div class="item">
+    <span>🍔 Burger - $3</span>
+    <button onclick="order('Burger')">Order</button>
+  </div>
+
+  <div class="item">
+    <span>🍕 Pizza - $5</span>
+    <button onclick="order('Pizza')">Order</button>
+  </div>
+
+  <div class="item">
+    <span>🥤 Coke - $1</span>
+    <button onclick="order('Coke')">Order</button>
+  </div>
+</div>
+
+<script>
+  function order(item) {
+    const botToken = "7762731023:AAE8xPU8h9X8EF0ba0CIeKH8ENUD2A5IkUM";
+    const chatId = "1061162254";
+    const message = `🛒 New Order!\nItem: ${item}`;
+
+    const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: message
+      })
+    })
+.then(response => response.json())
+.then(data => {
+  if (data.ok) {
+    alert("✅ Order sent!");
+  } else {
+    alert("❌ Error: " + data.description);
+  }
+})
+.catch(error => {
+  alert("❌ Failed: " + error.message);
+  console.error(error);
+});
+  }
+</script>
+
+</body>
+</html>
